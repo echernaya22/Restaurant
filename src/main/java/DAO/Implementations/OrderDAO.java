@@ -17,16 +17,16 @@ public class OrderDAO implements OrderInterface<Order> {
     }
 
     public void createOrder(Order order) {
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
-        String sql = "insert into [Order] (ClientId, OrderDate, Amount, Tips, Tax, TotalAmount) values (?, ?, ?, ?, ?, ?)";
+        String orderSql = "insert into [Order] (ClientId, OrderDate, Amount, Tips, Tax, TotalAmount) values (?, ?, ?, ?, ?, ?)";
 
         String orderDetailsSql = "insert into OrderDetails (OrderID, DishID, Quantity) values (?,?,?)";
 
         int primaryKey = 0;
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
-            try (PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            try (PreparedStatement prepStatement = connection.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)){
                 prepStatement.setInt(1, order.getClient().getId());
                 prepStatement.setDate(2, (Date) order.getDate());
                 prepStatement.setDouble(3, order.getAmount());

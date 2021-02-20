@@ -15,16 +15,13 @@ public class CategoryDAO implements CrudInterface<Category> {
     }
 
     public Category getById(int id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
         ResultSet resultSet = null;
 
         Category category = new Category();
         String sql = "select CategoryID, CategoryName from Category where CategoryID = ?";
 
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql)){
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
@@ -37,24 +34,18 @@ public class CategoryDAO implements CrudInterface<Category> {
             throwables.printStackTrace();
         } finally {
             resultSet.close();
-            prepStatement.close();
-            connection.close();
-        }
+       }
         return category;
     }
 
-    public List<Category> getAll() throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
-        ResultSet resultSet = null;
+    public List<Category> getAll() {
 
         List<Category> allCategories = new LinkedList<>();
 
         String sql = "select CategoryID, CategoryName from Category";
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
-            resultSet = prepStatement.executeQuery();
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = prepStatement.executeQuery()){
 
             while (resultSet.next()) {
                 Category category = new Category();
@@ -66,10 +57,6 @@ public class CategoryDAO implements CrudInterface<Category> {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return allCategories;
     }

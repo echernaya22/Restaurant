@@ -14,18 +14,15 @@ public class ClientDAO implements ClientInterface {
 
     }
 
-    public List<Client> getAll() throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
-        ResultSet resultSet = null;
+    public List<Client> getAll() {
 
         List<Client> allClients = new LinkedList<>();
 
         String sql = "select ClientID, Sirname, Name, PhoneNumber, Discount from Client";
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
-            resultSet = prepStatement.executeQuery();
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = prepStatement.executeQuery()){
+
 
             while (resultSet.next()) {
                 Client client = new Client();
@@ -40,24 +37,17 @@ public class ClientDAO implements ClientInterface {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return allClients;
     }
 
     public Client getByPhoneNumber(String phoneNumber) throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
         ResultSet resultSet = null;
 
         Client client = new Client();
         String sql = "select ClientID, Sirname, Name, PhoneNumber, Discount from Client where PhoneNumber = ?";
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql)){
             prepStatement.setString(1, phoneNumber);
             resultSet = prepStatement.executeQuery();
 
@@ -73,22 +63,17 @@ public class ClientDAO implements ClientInterface {
             throwables.printStackTrace();
         } finally {
             resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return client;
     }
 
     public Client getById(int id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
         ResultSet resultSet = null;
 
         Client client = new Client();
         String sql = "select ClientID, Sirname, Name, PhoneNumber, Discount from Client where ClientID = ?";
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql)){
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
@@ -104,8 +89,6 @@ public class ClientDAO implements ClientInterface {
             throwables.printStackTrace();
         } finally {
             resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return client;
     }

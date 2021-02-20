@@ -15,16 +15,15 @@ public class UnitDAO implements CrudInterface<Unit> {
     }
 
     public Unit getById(int id) throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
+
         ResultSet resultSet = null;
 
         Unit unit = new Unit();
         String sql = "select UnitID, UnitName from Unit where UnitID = ?";
 
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql);){
+
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
@@ -37,24 +36,19 @@ public class UnitDAO implements CrudInterface<Unit> {
             throwables.printStackTrace();
         } finally {
             resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return unit;
     }
 
-    public List<Unit> getAll() throws SQLException {
-        Connection connection = null;
-        PreparedStatement prepStatement = null;
-        ResultSet resultSet = null;
+    public List<Unit> getAll() {
 
         List<Unit> allUnits = new LinkedList<>();
 
         String sql = "select UnitID, UnitName from Unit";
-        try {
-            connection = DriverManager.getConnection(connectionUrl);
-            prepStatement = connection.prepareStatement(sql);
-            resultSet = prepStatement.executeQuery();
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+             PreparedStatement prepStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = prepStatement.executeQuery()){
+
 
             while (resultSet.next()) {
                 Unit unit = new Unit();
@@ -66,10 +60,6 @@ public class UnitDAO implements CrudInterface<Unit> {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            resultSet.close();
-            prepStatement.close();
-            connection.close();
         }
         return allUnits;
     }

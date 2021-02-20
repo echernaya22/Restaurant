@@ -16,8 +16,7 @@ public class DishDAO implements DishInterface {
 
     }
 
-    public List<Dish> getAll() throws SQLException {
-        ResultSet resultSet = null;
+    public List<Dish> getAll() {
 
         List<Dish> allDishes = new LinkedList<>();
 
@@ -34,9 +33,8 @@ public class DishDAO implements DishInterface {
                 "inner join Category as ct on ct.CategoryID = ds.CategoryID\n" +
                 "inner join Unit as ut on ut.UnitID = ds.UnitID";
         try (Connection connection = DriverManager.getConnection(connectionUrl);
-             PreparedStatement prepStatement = connection.prepareStatement(sql);){
-
-            resultSet = prepStatement.executeQuery();
+             PreparedStatement prepStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = prepStatement.executeQuery()){
 
             while (resultSet.next()) {
                 Dish dish = new Dish();
@@ -55,8 +53,6 @@ public class DishDAO implements DishInterface {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            resultSet.close();
         }
         return allDishes;
     }
