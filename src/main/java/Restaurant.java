@@ -54,8 +54,9 @@ public class Restaurant {
         String choice = "";
         System.out.println("ADMIN");
         while (choice != "3") {
-            System.out.println("Press 1 to enter as user");
-            System.out.println("Press 2 to enter as admin");
+            System.out.println("Press 1 to add a client");
+            System.out.println("Press 2 to update a client");
+            System.out.println("Press 3 to delete a client");
             System.out.println("Press enter to exit");
 
             choice = scan.nextLine();
@@ -63,22 +64,44 @@ public class Restaurant {
             switch (choice) {
                 case "1":
                     System.out.println("enter name");
-                    String clientName = scan.nextLine();
+                    String clientNameCreate = scan.nextLine();
                     System.out.println("enter surname");
-                    String clientSurname = scan.nextLine();
+                    String clientSurnameCreate = scan.nextLine();
                     System.out.println("enter phone");
-                    String clientPhone = scan.nextLine();
+                    String clientPhoneCreate = scan.nextLine();
                     System.out.println("enter discount");
-                    double clientDiscount = scan.nextDouble();
-                    Client client = new Client(clientSurname, clientName, clientPhone, clientDiscount);
-                    ClientService clientService = new ClientService();
-                    clientService.create(client);
+                    double clientDiscountCreate = scan.nextDouble();
+                    Client clientCreate = new Client(clientSurnameCreate, clientNameCreate, clientPhoneCreate, clientDiscountCreate);
+                    ClientService clientServiceCreate = new ClientService();
+                    clientServiceCreate.create(clientCreate);
                     System.out.println("client has been successfully created");
                     break;
                 case "2":
-                    System.out.println("All clients");
-                    ClientService clientService1 = new ClientService();
-                    System.out.println(clientService1.getAll());
+                    System.out.println("Enter client id");
+                    int clientIdUpdate = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println("enter name");
+                    String clientNameUpdate = scan.nextLine();
+                    System.out.println("enter surname");
+                    String clientSurnameUpdate = scan.nextLine();
+                    System.out.println("enter phone");
+                    String clientPhoneUpdate = scan.nextLine();
+                    System.out.println("enter discount");
+                    double clientDiscountUpdate = scan.nextDouble();
+                    scan.nextLine();
+                    ClientService clientServiceUpdate = new ClientService();
+                    Client clientUpdate = new Client(clientSurnameUpdate, clientNameUpdate, clientPhoneUpdate, clientDiscountUpdate);
+                    clientServiceUpdate.update(clientUpdate, clientIdUpdate);
+                    System.out.println("Client has been successfully updated");
+                    break;
+
+                case "3":
+                    System.out.println("Enter client id");
+                    int clientIdDelete = scan.nextInt();
+                    scan.nextLine();
+                    ClientService clientServiceDelete = new ClientService();
+                    clientServiceDelete.delete(clientIdDelete);
+                    System.out.println("Client has been successfully deleted");
                     break;
                 default:
                     choice = "3";
