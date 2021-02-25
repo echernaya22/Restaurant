@@ -2,6 +2,7 @@ package DAO.Implementations;
 
 import DAO.Interfaces.CrudInterface;
 import Models.Category;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class CategoryDAO implements CrudInterface<Category> {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
-
+    private static final Logger log = Logger.getLogger(CategoryDAO.class);
     public CategoryDAO() {
 
     }
@@ -25,15 +26,20 @@ public class CategoryDAO implements CrudInterface<Category> {
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
-            resultSet.next();
-            category.setCatergoryId(resultSet.getInt("CategoryID"));
-            category.setName(resultSet.getString("CategoryName"));
+            if (resultSet != null && resultSet.next()) {
+                category.setCatergoryId(resultSet.getInt("CategoryID"));
+                category.setName(resultSet.getString("CategoryName"));
+            }
 
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in CategoryDAO.getById: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in CategoryDAO.getById: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
        }
         return category;
     }
@@ -55,8 +61,10 @@ public class CategoryDAO implements CrudInterface<Category> {
                 allCategories.add(category);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in CategoryDAO.getAll: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in CategoryDAO.getAll: ", e);
         }
         return allCategories;
     }
@@ -71,8 +79,10 @@ public class CategoryDAO implements CrudInterface<Category> {
             prepStatement.setString(1, category.getName());
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in CategoryDAO.create: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in CategoryDAO.create: ", e);
         }
 
     }
@@ -87,8 +97,10 @@ public class CategoryDAO implements CrudInterface<Category> {
             prepStatement.setInt(2, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in CategoryDAO.update: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in CategoryDAO.update: ", e);
         }
     }
 
@@ -102,8 +114,10 @@ public class CategoryDAO implements CrudInterface<Category> {
             prepStatement.setInt(1, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in CategoryDAO.delete: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in CategoryDAO.delete: ", e);
         }
     }
 }

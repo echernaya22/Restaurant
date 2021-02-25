@@ -2,6 +2,7 @@ package DAO.Implementations;
 
 import DAO.Interfaces.CrudInterface;
 import Models.Unit;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class UnitDAO implements CrudInterface<Unit> {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
+    private static final Logger log = Logger.getLogger(UnitDAO.class);
 
     public UnitDAO() {
 
@@ -19,7 +21,7 @@ public class UnitDAO implements CrudInterface<Unit> {
         ResultSet resultSet = null;
 
         Unit unit = new Unit();
-        String sql = "select UnitID, UnitName from Unit where UnitID = ?";
+        String sql = "select UnitID, UnitName from Unit1 where UnitID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql);){
@@ -27,15 +29,20 @@ public class UnitDAO implements CrudInterface<Unit> {
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
-            resultSet.next();
-            unit.setUnitId(resultSet.getInt("UnitID"));
-            unit.setName(resultSet.getString("UnitName"));
+            if (resultSet != null && resultSet.next()) {
+                unit.setUnitId(resultSet.getInt("UnitID"));
+                unit.setName(resultSet.getString("UnitName"));
+            }
 
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in UnitDAO.getById: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in UnitDAO.getById: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
         return unit;
     }
@@ -58,8 +65,10 @@ public class UnitDAO implements CrudInterface<Unit> {
                 allUnits.add(unit);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in UnitDAO.getAll: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in UnitDAO.getAll: ", e);
         }
         return allUnits;
     }
@@ -74,8 +83,10 @@ public class UnitDAO implements CrudInterface<Unit> {
             prepStatement.setString(1, unit.getName());
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in UnitDAO.create: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in UnitDAO.create: ", e);
         }
 
     }
@@ -90,8 +101,10 @@ public class UnitDAO implements CrudInterface<Unit> {
             prepStatement.setInt(2, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in UnitDAO.update: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in UnitDAO.update: ", e);
         }
     }
 
@@ -105,8 +118,10 @@ public class UnitDAO implements CrudInterface<Unit> {
             prepStatement.setInt(1, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in UnitDAO.delete: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in UnitDAO.delete: ", e);
         }
     }
 }

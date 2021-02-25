@@ -2,6 +2,7 @@ package DAO.Implementations;
 
 import DAO.Interfaces.ClientInterface;
 import Models.Client;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class ClientDAO implements ClientInterface {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
-
+    private static final Logger log = Logger.getLogger(ClientDAO.class);
     public ClientDAO() {
 
     }
@@ -35,8 +36,10 @@ public class ClientDAO implements ClientInterface {
                 allClients.add(client);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.getAll: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.getAll: ", e);
         }
         return allClients;
     }
@@ -51,18 +54,22 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setString(1, phoneNumber);
             resultSet = prepStatement.executeQuery();
 
-            resultSet.next();
+            if (resultSet != null && resultSet.next()) {
+                client.setId(resultSet.getInt("ClientID"));
+                client.setSurname(resultSet.getString("Sirname"));
+                client.setName(resultSet.getString("Name"));
+                client.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                client.setDiscount(resultSet.getDouble("Discount"));
+            }
 
-            client.setId(resultSet.getInt("ClientID"));
-            client.setSurname(resultSet.getString("Sirname"));
-            client.setName(resultSet.getString("Name"));
-            client.setPhoneNumber(resultSet.getString("PhoneNumber"));
-            client.setDiscount(resultSet.getDouble("Discount"));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.getByPhoneNumber: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.getByPhoneNumber: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
         return client;
     }
@@ -77,18 +84,22 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
-            resultSet.next();
+            if (resultSet != null && resultSet.next()) {
+                client.setId(resultSet.getInt("ClientID"));
+                client.setSurname(resultSet.getString("Sirname"));
+                client.setName(resultSet.getString("Name"));
+                client.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                client.setDiscount(resultSet.getDouble("Discount"));
+            }
 
-            client.setId(resultSet.getInt("ClientID"));
-            client.setSurname(resultSet.getString("Sirname"));
-            client.setName(resultSet.getString("Name"));
-            client.setPhoneNumber(resultSet.getString("PhoneNumber"));
-            client.setDiscount(resultSet.getDouble("Discount"));
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.getById: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.getById: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
         return client;
     }
@@ -106,8 +117,10 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setDouble(4, client.getDiscount());
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.create: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.create: ", e);
         }
 
     }
@@ -121,8 +134,10 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setInt(1, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.delete: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.delete: ", e);
         }
     }
 
@@ -138,8 +153,10 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setInt(5, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in ClientDAO.update: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in ClientDAO.update: ", e);
         }
     }
 }

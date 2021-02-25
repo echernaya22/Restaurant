@@ -4,6 +4,7 @@ import DAO.Interfaces.OrderInterface;
 import Models.Order;
 import Models.OrderDetails;
 import Services.ClientService;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class OrderDAO implements OrderInterface<Order> {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
-
+    private static final Logger log = Logger.getLogger(OrderDAO.class);
     public OrderDAO() {
 
     }
@@ -49,8 +50,10 @@ public class OrderDAO implements OrderInterface<Order> {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in OrderDAO.createOrder: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in OrderDAO.createOrder: ", e);
         }
 
     }
@@ -102,8 +105,10 @@ public class OrderDAO implements OrderInterface<Order> {
                 }
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in OrderDAO.getAll: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in OrderDAO.getAll: ", e);
         }
         return allOrders;
     }
@@ -118,8 +123,10 @@ public class OrderDAO implements OrderInterface<Order> {
                 result = resultSet.getDouble(1);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in OrderDAO.calculateAverageCheck: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in OrderDAO.calculateAverageCheck: ", e);
         }
         return result;
     }
@@ -135,8 +142,10 @@ public class OrderDAO implements OrderInterface<Order> {
                 result = resultSet.getDouble(1);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in OrderDAO.calculateCheckDepth: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in OrderDAO.calculateCheckDepth: ", e);
         }
         return result;
     }

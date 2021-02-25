@@ -4,6 +4,7 @@ import DAO.Interfaces.DishInterface;
 import Models.Category;
 import Models.Dish;
 import Models.Unit;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class DishDAO implements DishInterface {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
-
+    private static final Logger log = Logger.getLogger(DishDAO.class);
     public DishDAO() {
 
     }
@@ -51,8 +52,10 @@ public class DishDAO implements DishInterface {
                 allDishes.add(dish);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.getAll: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.getAll: ", e);
         }
         return allDishes;
     }
@@ -96,20 +99,19 @@ public class DishDAO implements DishInterface {
                 allDishes.add(dish);
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.getByCategory: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.getByCategory: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
         return allDishes;
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     * @throws SQLException
-     */
+
     public Dish getById(int id) throws SQLException {
 
         ResultSet resultSet = null;
@@ -125,23 +127,27 @@ public class DishDAO implements DishInterface {
             prepStatement.setInt(1, id);
             resultSet = prepStatement.executeQuery();
 
-            resultSet.next();
+            if (resultSet != null && resultSet.next()) {
 
-            String str = resultSet.getString("UnitName");
-            Unit unit = new Unit(resultSet.getString("UnitName"));
-            Category category = new Category(resultSet.getString("CategoryName"));
+                Unit unit = new Unit(resultSet.getString("UnitName"));
+                Category category = new Category(resultSet.getString("CategoryName"));
 
-            dish.setId(resultSet.getInt("DishID"));
-            dish.setName(resultSet.getString("Name"));
-            dish.setCategory(category);
-            dish.setPrice(resultSet.getDouble("Price"));
-            dish.setWeight(resultSet.getDouble("Weight"));
-            dish.setUnit(unit);
+                dish.setId(resultSet.getInt("DishID"));
+                dish.setName(resultSet.getString("Name"));
+                dish.setCategory(category);
+                dish.setPrice(resultSet.getDouble("Price"));
+                dish.setWeight(resultSet.getDouble("Weight"));
+                dish.setUnit(unit);
+            }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.getById: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.getById: ", e);
         } finally {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
         return dish;
     }
@@ -154,8 +160,10 @@ public class DishDAO implements DishInterface {
             prepStatement.setInt(1, dishId);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.delete: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.delete: ", e);
         }
     }
 
@@ -176,8 +184,10 @@ public class DishDAO implements DishInterface {
             prepStatement.setInt(5, unit.getUnitId());
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.create: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.create: ", e);
         }
 
     }
@@ -200,8 +210,10 @@ public class DishDAO implements DishInterface {
             prepStatement.setInt(6, id);
             prepStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            log.error("SQLException is caught in DishDAO.update: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in DishDAO.update: ", e);
         }
     }
 
