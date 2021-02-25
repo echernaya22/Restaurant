@@ -21,7 +21,7 @@ public class UnitDAO implements CrudInterface<Unit> {
         ResultSet resultSet = null;
 
         Unit unit = new Unit();
-        String sql = "select UnitID, UnitName from Unit1 where UnitID = ?";
+        String sql = "select UnitID, UnitName from Unit where UnitID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql);){
