@@ -13,9 +13,8 @@ public class OrderService {
 
     }
 
-    public void createOrder(Order order) {
+    private double getTotalAmount(Order order) {
         double amount = 0;
-
         for(OrderDetails detail : order.getOrderDetails()) {
             amount += detail.getDish().getPrice() * detail.getQuantity();
         }
@@ -23,11 +22,16 @@ public class OrderService {
         double discount = order.getClient().getDiscount();
         if (discount > 0) amount -= amount * discount / 100;
 
-        double tax = amount * 0.06;
+        return amount;
+    }
+
+
+    public void createOrder(Order order) {
+        double amount = getTotalAmount(order);
 
         order.setAmount(amount);
-        order.setTax(tax);
-        order.setTotalAmount(amount+tax);
+        order.setTax(amount * 0.06);
+        order.setTotalAmount(amount + (amount * 0.06));
 
         orderDb.createOrder(order);
     }
