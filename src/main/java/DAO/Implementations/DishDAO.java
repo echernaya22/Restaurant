@@ -1,7 +1,7 @@
 package DAO.Implementations;
 
 import DAO.Interfaces.DishInterface;
-import Services.Category;
+import Models.Category;
 import Models.Dish;
 import Models.Unit;
 import org.apache.log4j.Logger;
@@ -42,7 +42,7 @@ public class DishDAO implements DishInterface {
                 Unit unit = new Unit(resultSet.getString("UnitName"));
                 Category category = new Category(resultSet.getString("CategoryName"));
 
-                dish.setId(resultSet.getInt("DishID"));
+                dish.setId(resultSet.getLong("DishID"));
                 dish.setName(resultSet.getString("Name"));
                 dish.setCategory(category);
                 dish.setPrice(resultSet.getDouble("Price"));
@@ -89,7 +89,7 @@ public class DishDAO implements DishInterface {
                 Unit unit = new Unit(resultSet.getString("UnitName"));
                 Category category = new Category(resultSet.getString("CategoryName"));
 
-                dish.setId(resultSet.getInt("DishID"));
+                dish.setId(resultSet.getLong("DishID"));
                 dish.setName(resultSet.getString("Name"));
                 dish.setCategory(category);
                 dish.setPrice(resultSet.getDouble("Price"));
@@ -112,7 +112,7 @@ public class DishDAO implements DishInterface {
     }
 
 
-    public Dish getById(int id) throws SQLException {
+    public Dish getById(long id) throws SQLException {
 
         ResultSet resultSet = null;
         Dish dish = new Dish();
@@ -124,7 +124,7 @@ public class DishDAO implements DishInterface {
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)){
 
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
@@ -132,7 +132,7 @@ public class DishDAO implements DishInterface {
                 Unit unit = new Unit(resultSet.getString("UnitName"));
                 Category category = new Category(resultSet.getString("CategoryName"));
 
-                dish.setId(resultSet.getInt("DishID"));
+                dish.setId(resultSet.getLong("DishID"));
                 dish.setName(resultSet.getString("Name"));
                 dish.setCategory(category);
                 dish.setPrice(resultSet.getDouble("Price"));
@@ -152,12 +152,12 @@ public class DishDAO implements DishInterface {
         return dish;
     }
 
-    public void delete(int dishId) {
+    public void delete(long dishId) {
 
         String sql = "delete from Dish where DishID = ?";
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
-            prepStatement.setInt(1, dishId);
+            prepStatement.setLong(1, dishId);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -178,10 +178,10 @@ public class DishDAO implements DishInterface {
             Unit unit = dish.getUnit();
 
             prepStatement.setString(1, dish.getName());
-            prepStatement.setInt(2, category.getCategoryId());
+            prepStatement.setLong(2, category.getCategoryId());
             prepStatement.setDouble(3, dish.getPrice());
             prepStatement.setDouble(4, dish.getWeight());
-            prepStatement.setInt(5, unit.getUnitId());
+            prepStatement.setLong(5, unit.getUnitId());
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -192,7 +192,7 @@ public class DishDAO implements DishInterface {
 
     }
 
-    public void update(Dish dish, int id) {
+    public void update(Dish dish, long id) {
 
         String sql = "update Dish set [Name] = ?, [CategoryID] = ?, [Price] = ?, [Weight] = ?, [UnitID] = ? where [DishID] = ?";
 
@@ -203,11 +203,11 @@ public class DishDAO implements DishInterface {
             Unit unit = dish.getUnit();
 
             prepStatement.setString(1, dish.getName());
-            prepStatement.setInt(2, category.getCategoryId());
+            prepStatement.setLong(2, category.getCategoryId());
             prepStatement.setDouble(3, dish.getPrice());
             prepStatement.setDouble(4, dish.getWeight());
-            prepStatement.setInt(5, unit.getUnitId());
-            prepStatement.setInt(6, id);
+            prepStatement.setLong(5, unit.getUnitId());
+            prepStatement.setLong(6, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {

@@ -1,6 +1,7 @@
 package Services;
 
 import DAO.Implementations.CategoryDAO;
+import Models.Category;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class CategoryServices {
     private CategoryDAO categoryDb = new CategoryDAO();
 
-    public Category getById(int id) throws SQLException {
+    public Category getById(long id) throws SQLException {
         return categoryDb.getById(id);
     }
 
@@ -20,11 +21,11 @@ public class CategoryServices {
         categoryDb.create(category);
     }
 
-    public void update(Category category, int id) throws SQLException {
+    public void update(Category category, long id) throws SQLException {
         categoryDb.update(category, id);
     }
 
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         categoryDb.delete(id);
     }
 }

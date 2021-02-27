@@ -16,7 +16,7 @@ public class UnitDAO implements CrudInterface<Unit> {
 
     }
 
-    public Unit getById(int id) throws SQLException {
+    public Unit getById(long id) throws SQLException {
 
         ResultSet resultSet = null;
 
@@ -26,11 +26,11 @@ public class UnitDAO implements CrudInterface<Unit> {
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql);){
 
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
-                unit.setUnitId(resultSet.getInt("UnitID"));
+                unit.setUnitId(resultSet.getLong("UnitID"));
                 unit.setName(resultSet.getString("UnitName"));
             }
 
@@ -59,7 +59,7 @@ public class UnitDAO implements CrudInterface<Unit> {
 
             while (resultSet.next()) {
                 Unit unit = new Unit();
-                unit.setUnitId(resultSet.getInt("UnitID"));
+                unit.setUnitId(resultSet.getLong("UnitID"));
                 unit.setName(resultSet.getString("UnitName"));
 
                 allUnits.add(unit);
@@ -91,14 +91,14 @@ public class UnitDAO implements CrudInterface<Unit> {
 
     }
 
-    public void update(Unit unit, int id) {
+    public void update(Unit unit, long id) {
 
         String sql = "update Unit set UnitName = ? where UnitID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
             prepStatement.setString(1, unit.getName());
-            prepStatement.setInt(2, id);
+            prepStatement.setLong(2, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -108,14 +108,14 @@ public class UnitDAO implements CrudInterface<Unit> {
         }
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
 
         String sql = "delete from Unit where UnitID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
 
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {

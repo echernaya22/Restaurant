@@ -27,7 +27,7 @@ public class ClientDAO implements ClientInterface {
 
             while (resultSet.next()) {
                 Client client = new Client();
-                client.setId(resultSet.getInt("ClientID"));
+                client.setId(resultSet.getLong("ClientID"));
                 client.setSurname(resultSet.getString("Sirname"));
                 client.setName(resultSet.getString("Name"));
                 client.setPhoneNumber(resultSet.getString("PhoneNumber"));
@@ -55,7 +55,7 @@ public class ClientDAO implements ClientInterface {
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
-                client.setId(resultSet.getInt("ClientID"));
+                client.setId(resultSet.getLong("ClientID"));
                 client.setSurname(resultSet.getString("Sirname"));
                 client.setName(resultSet.getString("Name"));
                 client.setPhoneNumber(resultSet.getString("PhoneNumber"));
@@ -74,18 +74,18 @@ public class ClientDAO implements ClientInterface {
         return client;
     }
 
-    public Client getById(int id) throws SQLException {
+    public Client getById(long id) throws SQLException {
         ResultSet resultSet = null;
 
         Client client = new Client();
         String sql = "select ClientID, Sirname, Name, PhoneNumber, Discount from Client where ClientID = ?";
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
-                client.setId(resultSet.getInt("ClientID"));
+                client.setId(resultSet.getLong("ClientID"));
                 client.setSurname(resultSet.getString("Sirname"));
                 client.setName(resultSet.getString("Name"));
                 client.setPhoneNumber(resultSet.getString("PhoneNumber"));
@@ -125,13 +125,13 @@ public class ClientDAO implements ClientInterface {
 
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
 
         String sql = "delete from Client where ClientID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -141,7 +141,7 @@ public class ClientDAO implements ClientInterface {
         }
     }
 
-    public void update(Client client, int id) {
+    public void update(Client client, long id) {
 
         String sql = "update Client set Sirname = ?, Name = ?, PhoneNumber = ?, Discount = ? where ClientID = ?";
         try (Connection connection = DriverManager.getConnection(connectionUrl);
@@ -150,7 +150,7 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setString(2, client.getName());
             prepStatement.setString(3, client.getPhoneNumber());
             prepStatement.setDouble(4, client.getDiscount());
-            prepStatement.setInt(5, id);
+            prepStatement.setLong(5, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {

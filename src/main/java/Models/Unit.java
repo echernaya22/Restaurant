@@ -1,7 +1,7 @@
 package Models;
 
 public class Unit {
-    private int unitId;
+    private long unitId;
     private String name;
 
     public Unit() {
@@ -16,7 +16,7 @@ public class Unit {
         return name;
     }
 
-    public int getUnitId() {
+    public long getUnitId() {
         return unitId;
     }
 
@@ -24,7 +24,7 @@ public class Unit {
         this.name = name;
     }
 
-    public void setUnitId(int unitId) {
+    public void setUnitId(long unitId) {
         this.unitId = unitId;
     }
 }

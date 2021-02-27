@@ -17,7 +17,7 @@ public class DishService {
         return dishDb.getByCategory(category);
     }
 
-    public void delete(int dishId) throws SQLException {
+    public void delete(long dishId) throws SQLException {
         dishDb.delete(dishId);
     }
 
@@ -25,11 +25,11 @@ public class DishService {
         dishDb.create(dish);
     }
 
-    public void update(Dish dish, int id) throws SQLException {
+    public void update(Dish dish, long id) throws SQLException {
         dishDb.update(dish, id);
     }
 
-    public Dish getById(int id) throws SQLException {
+    public Dish getById(long id) throws SQLException {
         return dishDb.getById(id);
     }
 }

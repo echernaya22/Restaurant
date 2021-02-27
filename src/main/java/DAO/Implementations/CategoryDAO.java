@@ -1,7 +1,7 @@
 package DAO.Implementations;
 
 import DAO.Interfaces.CrudInterface;
-import Services.Category;
+import Models.Category;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -15,7 +15,7 @@ public class CategoryDAO implements CrudInterface<Category> {
 
     }
 
-    public Category getById(int id) throws SQLException {
+    public Category getById(long id) throws SQLException {
         ResultSet resultSet = null;
 
         Category category = new Category();
@@ -23,11 +23,11 @@ public class CategoryDAO implements CrudInterface<Category> {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)){
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
-                category.setCategoryId(resultSet.getInt("CategoryID"));
+                category.setCategoryId(resultSet.getLong("CategoryID"));
                 category.setName(resultSet.getString("CategoryName"));
             }
 
@@ -55,7 +55,7 @@ public class CategoryDAO implements CrudInterface<Category> {
 
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setCategoryId(resultSet.getInt("CategoryID"));
+                category.setCategoryId(resultSet.getLong("CategoryID"));
                 category.setName(resultSet.getString("CategoryName"));
 
                 allCategories.add(category);
@@ -87,14 +87,14 @@ public class CategoryDAO implements CrudInterface<Category> {
 
     }
 
-    public void update(Category category, int id){
+    public void update(Category category, long id){
 
         String sql = "update Category set CategoryName = ? where CategoryID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
             prepStatement.setString(1, category.getName());
-            prepStatement.setInt(2, id);
+            prepStatement.setLong(2, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -104,14 +104,14 @@ public class CategoryDAO implements CrudInterface<Category> {
         }
     }
 
-    public void delete(int id){
+    public void delete(long id){
 
         String sql = "delete from Category where CategoryID = ?";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
              PreparedStatement prepStatement = connection.prepareStatement(sql)) {
 
-            prepStatement.setInt(1, id);
+            prepStatement.setLong(1, id);
             prepStatement.executeUpdate();
 
         } catch (SQLException e) {

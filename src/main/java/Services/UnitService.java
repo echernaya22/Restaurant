@@ -9,7 +9,7 @@ import java.util.List;
 public class UnitService {
     private UnitDAO unitDb = new UnitDAO();
 
-    public Unit getById(int id) throws SQLException {
+    public Unit getById(long id) throws SQLException {
         return unitDb.getById(id);
     }
 
@@ -19,10 +19,10 @@ public class UnitService {
     public void create(Unit unit) throws SQLException {
         unitDb.create(unit);
     }
-    public void update(Unit unit, int id) throws SQLException {
+    public void update(Unit unit, long id) throws SQLException {
         unitDb.update(unit, id);
     }
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         unitDb.delete(id);
     }
 }

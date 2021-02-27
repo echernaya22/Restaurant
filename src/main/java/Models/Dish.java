@@ -1,9 +1,7 @@
 package Models;
 
-import Services.Category;
-
 public class Dish {
-    private int id;
+    private long id;
     private String name;
     private Category category;
     private double price;
@@ -30,11 +28,11 @@ public class Dish {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

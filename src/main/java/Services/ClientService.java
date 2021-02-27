@@ -22,15 +22,15 @@ public class ClientService {
         return clientDb.getByPhoneNumber(phoneNumber);
     }
 
-    public void delete(int id) {
+    public void delete(long id) {
         clientDb.delete(id);
     }
 
-    public void update(Client client, int id) {
+    public void update(Client client, long id) {
         clientDb.update(client, id);
     }
 
-    public Client getById(int id) throws SQLException {
+    public Client getById(long id) throws SQLException {
         return clientDb.getById(id);
     }
 }

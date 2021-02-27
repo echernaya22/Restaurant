@@ -28,7 +28,7 @@ public class OrderDAO implements OrderInterface<Order> {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             try (PreparedStatement prepStatement = connection.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)){
-                prepStatement.setInt(1, order.getClient().getId());
+                prepStatement.setLong(1, order.getClient().getId());
                 prepStatement.setDate(2, (Date) order.getDate());
                 prepStatement.setDouble(3, order.getAmount());
                 prepStatement.setDouble(4, order.getTips());
@@ -43,8 +43,8 @@ public class OrderDAO implements OrderInterface<Order> {
 
             try (PreparedStatement prepStatement = connection.prepareStatement(orderDetailsSql)){
                 for (OrderDetails details : order.getOrderDetails()) {
-                    prepStatement.setInt(1, primaryKey);
-                    prepStatement.setInt(2, details.getDish().getId());
+                    prepStatement.setLong(1, primaryKey);
+                    prepStatement.setLong(2, details.getDish().getId());
                     prepStatement.setInt(3, details.getQuantity());
                     prepStatement.executeUpdate();
                 }
@@ -75,8 +75,8 @@ public class OrderDAO implements OrderInterface<Order> {
                     Order order = new Order();
                     ClientService clientService = new ClientService();
 
-                    order.setId(resultSet.getInt("OrderID"));
-                    order.setClient(clientService.getById(resultSet.getInt("ClientId")));
+                    order.setId(resultSet.getLong("OrderID"));
+                    order.setClient(clientService.getById(resultSet.getLong("ClientId")));
                     order.setAmount(resultSet.getDouble("Amount"));
                     order.setDate(resultSet.getDate("OrderDate"));
                     order.setTax(resultSet.getDouble("Tax"));
@@ -89,16 +89,16 @@ public class OrderDAO implements OrderInterface<Order> {
 
             try (PreparedStatement prepStatement = connection.prepareStatement(sqlOrderDetails)){
                 for (Order order : allOrders) {
-                    int id = order.getId();
+                    long id = order.getId();
                     List<OrderDetails> orderDetailsList = new LinkedList<>();
                     DishDAO dishDAO = new DishDAO();
 
-                    prepStatement.setInt(1, id);
+                    prepStatement.setLong(1, id);
                     resultSet = prepStatement.executeQuery();
 
 
                     while (resultSet.next()){
-                        int dishId = resultSet.getInt("DishID");
+                        long dishId = resultSet.getLong("DishID");
                         orderDetailsList.add(new OrderDetails(dishDAO.getById(dishId), resultSet.getInt("Quantity")));
                     }
                     order.setOrderDetails(orderDetailsList);

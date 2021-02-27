@@ -1,9 +1,9 @@
-package Services;
+package Models;
 
 import java.util.Objects;
 
 public class Category {
-    private int categoryId;
+    private long categoryId;
     private String name;
 
     public Category() {
@@ -17,7 +17,7 @@ public class Category {
         return name;
     }
 
-    public int getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
@@ -25,7 +25,7 @@ public class Category {
         this.name = name;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 

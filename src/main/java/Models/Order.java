@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
-    private int id;
+    private long id;
     private Client client;
     private Date date;
     private double amount;
@@ -26,7 +26,7 @@ public class Order {
         this.tips = tips;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -86,7 +86,7 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
