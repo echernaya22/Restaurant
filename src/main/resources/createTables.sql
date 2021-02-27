@@ -1,5 +1,5 @@
 CREATE TABLE Client (
-	ClientID int identity(1,1) primary key not null
+	ClientID bigint identity(1,1) primary key not null
 	, Sirname nvarchar(255)
 	, [Name] nvarchar(125)
 	, PhoneNumber nvarchar(50) not null unique
@@ -7,7 +7,7 @@ CREATE TABLE Client (
 );
 
 create table Dish (
-	DishID int identity(1,1) primary key not null
+	DishID bigint identity(1,1) primary key not null
 	, [Name] nvarchar(255) not null
 	, CategoryID nvarchar(255)
 	, Price money not null
@@ -16,8 +16,8 @@ create table Dish (
 )
 
 create table [Order] (
-	OrderID int identity(1,1) primary key not null
-	, ClientId int
+	OrderID bigint identity(1,1) primary key not null
+	, ClientId bigint
 	, OrderDate date not null
 	, TotalAmount money not null
 	, Tax money not null
@@ -26,18 +26,18 @@ create table [Order] (
 )
 
 create table OrderDetails (
-	DishID int
-	, OrderID int
+	DishID bigint
+	, OrderID bigint
 	, Quantity int not null
 )
 
 create table Category (
-	CategoryID int identity(1,1) primary key not null
+	CategoryID bigint identity(1,1) primary key not null
 	, CategoryName nvarchar(255) not null unique
 )
 
 create table Unit (
-	UnitID int identity(1,1) primary key not null
+	UnitID bigint identity(1,1) primary key not null
 	, UnitName nvarchar(50) not null unique
 )
 
