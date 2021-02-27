@@ -1,7 +1,6 @@
 package Services;
 
 import DAO.Implementations.CategoryDAO;
-import Models.Category;
 
 import java.sql.SQLException;
 import java.util.List;

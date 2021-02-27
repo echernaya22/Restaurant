@@ -1,7 +1,7 @@
 package DAO.Implementations;
 
 import DAO.Interfaces.CrudInterface;
-import Models.Category;
+import Services.Category;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -27,7 +27,7 @@ public class CategoryDAO implements CrudInterface<Category> {
             resultSet = prepStatement.executeQuery();
 
             if (resultSet != null && resultSet.next()) {
-                category.setCatergoryId(resultSet.getInt("CategoryID"));
+                category.setCategoryId(resultSet.getInt("CategoryID"));
                 category.setName(resultSet.getString("CategoryName"));
             }
 
@@ -55,7 +55,7 @@ public class CategoryDAO implements CrudInterface<Category> {
 
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setCatergoryId(resultSet.getInt("CategoryID"));
+                category.setCategoryId(resultSet.getInt("CategoryID"));
                 category.setName(resultSet.getString("CategoryName"));
 
                 allCategories.add(category);

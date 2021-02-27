@@ -1,7 +1,7 @@
 package DAO.Implementations;
 
 import DAO.Interfaces.DishInterface;
-import Models.Category;
+import Services.Category;
 import Models.Dish;
 import Models.Unit;
 import org.apache.log4j.Logger;
@@ -178,7 +178,7 @@ public class DishDAO implements DishInterface {
             Unit unit = dish.getUnit();
 
             prepStatement.setString(1, dish.getName());
-            prepStatement.setInt(2, category.getCatergoryId());
+            prepStatement.setInt(2, category.getCategoryId());
             prepStatement.setDouble(3, dish.getPrice());
             prepStatement.setDouble(4, dish.getWeight());
             prepStatement.setInt(5, unit.getUnitId());
@@ -203,7 +203,7 @@ public class DishDAO implements DishInterface {
             Unit unit = dish.getUnit();
 
             prepStatement.setString(1, dish.getName());
-            prepStatement.setInt(2, category.getCatergoryId());
+            prepStatement.setInt(2, category.getCategoryId());
             prepStatement.setDouble(3, dish.getPrice());
             prepStatement.setDouble(4, dish.getWeight());
             prepStatement.setInt(5, unit.getUnitId());

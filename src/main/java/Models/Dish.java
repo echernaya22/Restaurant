@@ -1,5 +1,7 @@
 package Models;
 
+import Services.Category;
+
 public class Dish {
     private int id;
     private String name;
