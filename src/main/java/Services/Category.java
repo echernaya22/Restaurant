@@ -26,4 +26,12 @@ public class Category {
     public void setCatergoryId(int catergoryId) {
         this.catergoryId = catergoryId;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "catergoryId=" + catergoryId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
