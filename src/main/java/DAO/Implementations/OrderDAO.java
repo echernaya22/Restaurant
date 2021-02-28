@@ -17,14 +17,14 @@ public class OrderDAO implements OrderInterface<Order> {
 
     }
 
-    public void createOrder(Order order) {
+    public long createOrder(Order order) {
         ResultSet resultSet;
 
         String orderSql = "insert into [Order] (ClientId, OrderDate, Amount, Tips, Tax, TotalAmount) values (?, ?, ?, ?, ?, ?)";
 
         String orderDetailsSql = "insert into OrderDetails (OrderID, DishID, Quantity) values (?,?,?)";
 
-        int primaryKey = 0;
+        long primaryKey = 0;
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             try (PreparedStatement prepStatement = connection.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)){
@@ -56,6 +56,7 @@ public class OrderDAO implements OrderInterface<Order> {
             log.error("Exception is caught in OrderDAO.createOrder: ", e);
         }
 
+        return primaryKey;
     }
 
     public List<Order> getAll() {

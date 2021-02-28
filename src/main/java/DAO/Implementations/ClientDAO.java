@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ClientDAO implements ClientInterface {
+public class ClientDAO implements ClientInterface{
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
     private static final Logger log = Logger.getLogger(ClientDAO.class);
     public ClientDAO() {
@@ -104,12 +104,13 @@ public class ClientDAO implements ClientInterface {
         return client;
     }
 
-    public void create(Client client) {
-
+    public long create(Client client) {
+        ResultSet resultSet;
+        long primaryKey = 0;
         String sql = "insert into Client (Sirname, [Name], PhoneNumber, Discount) values (?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
-             PreparedStatement prepStatement = connection.prepareStatement(sql)) {
+             PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             prepStatement.setString(1, client.getSurname());
             prepStatement.setString(2, client.getName());
@@ -117,12 +118,17 @@ public class ClientDAO implements ClientInterface {
             prepStatement.setDouble(4, client.getDiscount());
             prepStatement.executeUpdate();
 
+            resultSet = prepStatement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                primaryKey = resultSet.getInt(1);
+            }
+
         } catch (SQLException e) {
             log.error("SQLException is caught in ClientDAO.create: ", e);
         } catch (Exception e) {
             log.error("Exception is caught in ClientDAO.create: ", e);
         }
-
+        return primaryKey;
     }
 
     public void delete(long id) {

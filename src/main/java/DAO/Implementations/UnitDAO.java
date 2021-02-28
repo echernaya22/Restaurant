@@ -73,15 +73,20 @@ public class UnitDAO implements CrudInterface<Unit> {
         return allUnits;
     }
 
-    public void create(Unit unit) {
-
+    public long create(Unit unit) {
+        ResultSet resultSet;
+        long primaryKey = 0;
         String sql = "insert into Unit (UnitName) values (?)";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
-             PreparedStatement prepStatement = connection.prepareStatement(sql)) {
+             PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             prepStatement.setString(1, unit.getName());
             prepStatement.executeUpdate();
+            resultSet = prepStatement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                primaryKey = resultSet.getInt(1);
+            }
 
         } catch (SQLException e) {
             log.error("SQLException is caught in UnitDAO.create: ", e);
@@ -89,6 +94,7 @@ public class UnitDAO implements CrudInterface<Unit> {
             log.error("Exception is caught in UnitDAO.create: ", e);
         }
 
+        return primaryKey;
     }
 
     public void update(Unit unit, long id) {

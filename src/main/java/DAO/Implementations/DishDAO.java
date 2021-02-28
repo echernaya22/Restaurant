@@ -167,12 +167,14 @@ public class DishDAO implements DishInterface {
         }
     }
 
-    public void create(Dish dish) {
+    public long create(Dish dish) {
+        ResultSet resultSet;
+        long primaryKey = 0;
 
         String sql = "insert into Dish ([Name], [CategoryID], [Price], [Weight], [UnitID]) values(?,?,?,?,?)";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
-             PreparedStatement prepStatement = connection.prepareStatement(sql)) {
+             PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             Category category = dish.getCategory();
             Unit unit = dish.getUnit();
@@ -183,13 +185,17 @@ public class DishDAO implements DishInterface {
             prepStatement.setDouble(4, dish.getWeight());
             prepStatement.setLong(5, unit.getUnitId());
             prepStatement.executeUpdate();
+            resultSet = prepStatement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                primaryKey = resultSet.getInt(1);
+            }
 
         } catch (SQLException e) {
             log.error("SQLException is caught in DishDAO.create: ", e);
         } catch (Exception e) {
             log.error("Exception is caught in DishDAO.create: ", e);
         }
-
+        return primaryKey;
     }
 
     public void update(Dish dish, long id) {

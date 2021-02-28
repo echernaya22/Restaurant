@@ -21,8 +21,8 @@ public class DishService {
         dishDb.delete(dishId);
     }
 
-    public void create(Dish dish) {
-        dishDb.create(dish);
+    public long create(Dish dish) {
+        return dishDb.create(dish);
     }
 
     public void update(Dish dish, long id) throws SQLException {

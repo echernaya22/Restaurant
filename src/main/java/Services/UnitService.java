@@ -16,8 +16,8 @@ public class UnitService {
     public List<Unit> getAll() throws SQLException {
         return unitDb.getAll();
     }
-    public void create(Unit unit) throws SQLException {
-        unitDb.create(unit);
+    public long create(Unit unit) throws SQLException {
+        return unitDb.create(unit);
     }
     public void update(Unit unit, long id) throws SQLException {
         unitDb.update(unit, id);

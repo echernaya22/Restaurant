@@ -69,15 +69,20 @@ public class CategoryDAO implements CrudInterface<Category> {
         return allCategories;
     }
 
-    public void create(Category category) {
-
+    public long create(Category category) {
+        ResultSet resultSet;
+        long primaryKey = 0;
         String sql = "insert into Category (CategoryName) values (?)";
 
         try (Connection connection = DriverManager.getConnection(connectionUrl);
-             PreparedStatement prepStatement = connection.prepareStatement(sql)) {
+             PreparedStatement prepStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             prepStatement.setString(1, category.getName());
             prepStatement.executeUpdate();
+            resultSet = prepStatement.getGeneratedKeys();
+            if (resultSet != null && resultSet.next()) {
+                primaryKey = resultSet.getInt(1);
+            }
 
         } catch (SQLException e) {
             log.error("SQLException is caught in CategoryDAO.create: ", e);
@@ -85,6 +90,7 @@ public class CategoryDAO implements CrudInterface<Category> {
             log.error("Exception is caught in CategoryDAO.create: ", e);
         }
 
+        return primaryKey;
     }
 
     public void update(Category category, long id){

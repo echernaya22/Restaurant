@@ -26,14 +26,14 @@ public class OrderService {
     }
 
 
-    public void createOrder(Order order) {
+    public long createOrder(Order order) {
         double amount = getTotalAmount(order);
 
         order.setAmount(amount);
         order.setTax(amount * 0.06);
         order.setTotalAmount(amount + (amount * 0.06));
 
-        orderDb.createOrder(order);
+        return orderDb.createOrder(order);
     }
 
     public List<Order> getAll() {

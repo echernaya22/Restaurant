@@ -10,8 +10,8 @@ public class ClientService {
     private ClientDAO clientDb = new ClientDAO();
 
 
-    public void create(Client client) {
-        clientDb.create(client);
+    public long create(Client client) {
+        return clientDb.create(client);
     }
 
     public List<Client> getAll() throws SQLException {

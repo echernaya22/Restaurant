@@ -17,8 +17,8 @@ public class CategoryServices {
         return categoryDb.getAll();
     }
 
-    public void create(Category category) throws SQLException {
-        categoryDb.create(category);
+    public long create(Category category) throws SQLException {
+        return categoryDb.create(category);
     }
 
     public void update(Category category, long id) throws SQLException {
@@ -28,4 +28,6 @@ public class CategoryServices {
     public void delete(long id) throws SQLException {
         categoryDb.delete(id);
     }
+
+
 }
