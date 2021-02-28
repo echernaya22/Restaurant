@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.*;
 
 public class CategoryServiceTest {
-    String connectionUrl = "jdbc:sqlserver://localhost;databaseName=RestaurantTest;user=admin;password=12345";
 
     private Connection connection;
     private CategoryServices categoryServices = new CategoryServices();

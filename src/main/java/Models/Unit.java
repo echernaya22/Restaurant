@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Objects;
+
 public class Unit {
     private long unitId;
     private String name;
@@ -26,5 +28,19 @@ public class Unit {
 
     public void setUnitId(long unitId) {
         this.unitId = unitId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return unitId == unit.unitId &&
+                Objects.equals(name, unit.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(unitId, name);
     }
 }
