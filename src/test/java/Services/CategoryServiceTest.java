@@ -12,7 +12,6 @@ public class CategoryServiceTest {
 
     private Connection connection;
     private CategoryServices categoryServices = new CategoryServices();
-    private CategoryDAO categoryDAO;
 
     public CategoryServiceTest() {
     }
