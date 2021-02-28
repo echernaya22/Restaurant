@@ -1,4 +1,5 @@
 import Models.Client;
+import Services.CategoryServices;
 import Services.ClientService;
 import Services.OrderService;
 import Services.UnitService;
@@ -9,20 +10,17 @@ import java.util.Scanner;
 public class Restaurant {
     public static void main(String[] args) throws SQLException {
 
-//        Scanner scan = new Scanner(System.in);
-//        System.out.println("1 = admin, 2 = user");
-//        int choice = scan.nextInt();
-//
-//        if (choice == 1) {
-//            adminMenu();
-//        } else if (choice == 2) {
-//            userMenu();
-//        } else {
-//            System.out.println("eeee");
-//        }
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1 = admin, 2 = user");
+        int choice = scan.nextInt();
 
-        UnitService unitService = new UnitService();
-        unitService.getById(1);
+        if (choice == 1) {
+            adminMenu();
+        } else if (choice == 2) {
+            userMenu();
+        } else {
+            System.out.println("eeee");
+        }
 
 
     }
