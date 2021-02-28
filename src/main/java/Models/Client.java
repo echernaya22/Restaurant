@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Objects;
+
 public class Client {
     private long id;
     private String surname;
@@ -68,5 +70,22 @@ public class Client {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", discount=" + discount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return id == client.id &&
+                Double.compare(client.discount, discount) == 0 &&
+                Objects.equals(surname, client.surname) &&
+                Objects.equals(name, client.name) &&
+                phoneNumber.equals(client.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, surname, name, phoneNumber, discount);
     }
 }
