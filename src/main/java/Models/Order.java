@@ -26,6 +26,12 @@ public class Order {
         this.tips = tips;
     }
 
+    public Order(Client client, Date date, List<OrderDetails> orderDetails) {
+        this.client = client;
+        this.date = date;
+        this.orderDetails = orderDetails;
+    }
+
     public long getId() {
         return id;
     }
