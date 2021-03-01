@@ -28,8 +28,9 @@ public class OrderDAO implements OrderInterface<Order> {
 
         try (Connection connection = DriverManager.getConnection(connectionUrl)) {
             try (PreparedStatement prepStatement = connection.prepareStatement(orderSql, Statement.RETURN_GENERATED_KEYS)){
+                Date sqlDate = new Date(order.getDate().getTime());
                 prepStatement.setLong(1, order.getClient().getId());
-                prepStatement.setDate(2, (Date) order.getDate());
+                prepStatement.setDate(2, sqlDate);
                 prepStatement.setDouble(3, order.getAmount());
                 prepStatement.setDouble(4, order.getTips());
                 prepStatement.setDouble(5, order.getTax());
