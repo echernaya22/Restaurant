@@ -162,6 +162,10 @@ public class OrderDAO implements OrderInterface<Order> {
                 order.setOrderDetails(orderDetailsList);
             }
 
+        } catch (SQLException e) {
+            log.error("SQLException is caught in OrderDAO.getById: ", e);
+        } catch (Exception e) {
+            log.error("Exception is caught in OrderDAO.getById: ", e);
         }
 
         return order;
