@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/echernaya/IdeaProjects/epamLab/Restaurant">
+        <classes>
+            <class name="Services.CategoryServiceTest">
+                <methods>
+                    <include name="getCategoryById"/>
+                    <include name="getCategoryByIdWhichNotExist"/>
+                    <include name="getAllCategories"/>
+                    <include name="createCategory"/>
+                    <include name="deleteCategory"/>
+                    <include name="updateCategory"/>
+                </methods>
+            </class>
+            <class name="Services.ClientServiceTest">
+                <methods>
+                    <include name="getClientById"/>
+                    <include name="getAllClients"/>
+                    <include name="createClient"/>
+                    <include name="deleteClient"/>
+                    <include name="updateClient"/>
+                    <include name="getClientByPhoneNumber"/>
+                </methods>
+            </class>
+            <class name="Services.DishServiceTest">
+                <methods>
+                    <include name="getDishById"/>
+                    <include name="getAllDishes"/>
+                    <include name="createDish"/>
+                    <include name="deleteDish"/>
+                    <include name="updateDish"/>
+                    <include name="getDishesByCategory"/>
+                </methods>
+            </class>
+            <class name="Services.OrderServiceTest">
+                <methods>
+                    <include name="createOrder"/>
+                    <include name="getAllOrders"/>
+                    <include name="getTotalAmount"/>
+                </methods>
+            </class>
+            <class name="Services.UnitServiceTest">
+                <methods>
+                    <include name="getUnitById"/>
+                    <include name="getAllUnits"/>
+                    <include name="createUnit"/>
+                    <include name="deleteUnit"/>
+                    <include name="updateUnit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
