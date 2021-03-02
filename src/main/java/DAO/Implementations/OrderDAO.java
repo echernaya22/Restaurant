@@ -13,6 +13,7 @@ import java.util.List;
 public class OrderDAO implements OrderInterface<Order> {
     private final String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
     private static final Logger log = Logger.getLogger(OrderDAO.class);
+
     public OrderDAO() {
 
     }
@@ -113,6 +114,57 @@ public class OrderDAO implements OrderInterface<Order> {
             log.error("Exception is caught in OrderDAO.getAll: ", e);
         }
         return allOrders;
+    }
+
+    public Order getById(long id) throws SQLException {
+        ResultSet resultSetOrder = null;
+        ResultSet resultSetOrderDetails = null;
+        ClientService clientService = new ClientService();
+        Order order = new Order();
+        String sqlOrder = "select\n" +
+                "\tord.[OrderID]\n" +
+                "\t, ord.[ClientId]\n" +
+                "\t, ord.[OrderDate]\n" +
+                "\t, ord.[TotalAmount]\n" +
+                "\t, ord.[Tax]\n" +
+                "\t, ord.[Amount]\n" +
+                "\t, ord.[Tips]\n" +
+                "from [dbo].[Order] as ord where ord.OrderID = ?";
+
+        String sqlOrderDetails = "select DishID, Quantity from OrderDetails where OrderID = ?";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl)) {
+            try (PreparedStatement prepStatement = connection.prepareStatement(sqlOrder)){
+                prepStatement.setLong(1, id);
+                resultSetOrder = prepStatement.executeQuery();
+
+                if (resultSetOrder != null && resultSetOrder.next()) {
+                    order.setId(resultSetOrder.getLong("OrderID"));
+                    order.setClient(clientService.getById(resultSetOrder.getLong("ClientId")));
+                    order.setAmount(resultSetOrder.getDouble("Amount"));
+                    order.setDate(resultSetOrder.getDate("OrderDate"));
+                    order.setTax(resultSetOrder.getDouble("Tax"));
+                    order.setTips(resultSetOrder.getDouble("Tips"));
+                    order.setTotalAmount(resultSetOrder.getDouble("TotalAmount"));
+                }
+            }
+            try (PreparedStatement prepStatement = connection.prepareStatement(sqlOrderDetails)){
+                prepStatement.setLong(1, id);
+                resultSetOrderDetails = prepStatement.executeQuery();
+                List<OrderDetails> orderDetailsList = new LinkedList<>();
+                DishDAO dishDAO = new DishDAO();
+
+                while (resultSetOrderDetails.next()){
+                    long dishId = resultSetOrderDetails.getLong("DishID");
+                    orderDetailsList.add(new OrderDetails(dishDAO.getById(dishId), resultSetOrderDetails.getInt("Quantity")));
+                }
+
+                order.setOrderDetails(orderDetailsList);
+            }
+
+        }
+
+        return order;
     }
 
     public double calculateAverageCheck() {

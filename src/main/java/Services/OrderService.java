@@ -4,6 +4,7 @@ import DAO.Implementations.OrderDAO;
 import Models.Order;
 import Models.OrderDetails;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
@@ -38,6 +39,10 @@ public class OrderService {
 
     public List<Order> getAll() {
         return orderDb.getAll();
+    }
+
+    public Order getById(long id) throws SQLException {
+        return orderDb.getById(id);
     }
 
     public double calculateAverageCheck() {
