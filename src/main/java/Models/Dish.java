@@ -90,9 +90,9 @@ public class Dish {
         return id == dish.id &&
                 price == dish.price &&
                 weight == dish.weight &&
-                name.equals(dish.name);
-//                Objects.equals(category.getCategoryId(), dish.getCategory().getCategoryId());
-//                Objects.equals(unit, dish.unit);
+                name.equals(dish.name) &&
+                category.toString().equals(dish.category.toString()) &&
+                unit.toString().equals(dish.unit.toString());
     }
 
     @Override

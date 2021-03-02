@@ -2,6 +2,7 @@ package Models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
     private long id;
@@ -109,5 +110,25 @@ public class Order {
                 ", orderDetails=" + orderDetails +
                 '}' +
                 '\n';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id &&
+                Double.compare(order.amount, amount) == 0 &&
+                Double.compare(order.tax, tax) == 0 &&
+                Double.compare(order.totalAmount, totalAmount) == 0 &&
+                Double.compare(order.tips, tips) == 0 &&
+                client.toString().equals(order.client.toString()) &&
+                date.toString().equals(order.date.toString()) &&
+                orderDetails.toString().equals(order.orderDetails.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, client, date, amount, tax, totalAmount, tips, orderDetails);
     }
 }
