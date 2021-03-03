@@ -27,7 +27,7 @@ public class DishServiceTest {
     @BeforeClass
     public void before() {
         try {
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
+            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=RestaurantTest;user=admin;password=12345";
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,11 +64,11 @@ public class DishServiceTest {
         Dish dish1 = new Dish("Hawaiian Mini Pizza", category, 290, 290, unit);
         dish1.setId(2);
         Dish dish4 = new Dish("Chilli Crab Mini Pizza", category, 340, 300, unit);
-        dish4.setId(2);
+        dish4.setId(3);
         Category category1 = categoryServices.getById(1);
         Dish dish2 = new Dish("Beef Burger", category1, 720, 590, unit);
         dish2.setId(4);
-        Dish dish3 = new Dish("Feesh & Chips", category1, 530, 450, unit);
+        Dish dish3 = new Dish("Fish & Chips", category1, 530, 450, unit);
         dish3.setId(5);
 
         List<Dish> dishList = new LinkedList<>();
@@ -133,7 +133,7 @@ public class DishServiceTest {
         Category category = categoryServices.getById(1);
         Dish dish1 = new Dish("Beef Burger", category, 720, 590, unit);
         dish1.setId(4);
-        Dish dish2 = new Dish("Feesh & Chips", category, 530, 450, unit);
+        Dish dish2 = new Dish("Fish & Chips", category, 530, 450, unit);
         dish2.setId(5);
 
         List<Dish> dishList = new LinkedList<>();

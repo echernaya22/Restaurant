@@ -22,7 +22,7 @@ public class UnitServiceTest {
     @BeforeClass
     public void before() {
         try {
-            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Restaurant;user=admin;password=12345";
+            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=RestaurantTest;user=admin;password=12345";
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {
             e.printStackTrace();
