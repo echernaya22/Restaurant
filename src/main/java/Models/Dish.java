@@ -91,8 +91,8 @@ public class Dish {
                 price == dish.price &&
                 weight == dish.weight &&
                 name.equals(dish.name) &&
-                category.toString().equals(dish.category.toString()) &&
-                unit.toString().equals(dish.unit.toString());
+                category.getName().equals(dish.category.getName()) &&
+                unit.getName().equals(dish.unit.getName());
     }
 
     @Override
